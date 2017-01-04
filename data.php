@@ -5,6 +5,9 @@
 	require("class/helper.class.php");
  	$Helper = new Helper();
 	
+	require("class/note.class.php");
+ 	$Note = new Note($mysqli);
+	
 	//ei ole sisseloginud, suunan login lehele
 	/*if(!isset ($_SESSION["userId"])) {
 		header("Location: login.php");

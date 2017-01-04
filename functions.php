@@ -8,7 +8,4 @@
 	$database = "if16_krisroos_3";
 	$mysqli = new mysqli ($serverHost, $serverUsername, $serverPassword, $database);
 	
-	require ("class/note.class.php");
-	$Note = new Note($mysqli);
-	
 ?>

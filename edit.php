@@ -26,8 +26,8 @@
  	//kas kasutaja uuendab andmeid
  	if(isset($_POST["update"])){
  		
-		$Note->updateNote($Helper->cleanInput($_POST["id"]), $Helper->cleanInput($_POST["color"]), $Helper->cleanInput($_POST["profession"])),
-		$Helper->cleanInput($_POST["location"]), $Helper->cleanInput($_POST["money"])), $Helper->cleanInput($_POST["note"]));
+		$Note->updateNote($Helper->cleanInput($_POST["id"]), $Helper->cleanInput($_POST["color"]), 
+		$Helper->cleanInput($_POST["profession"]),$Helper->cleanInput($_POST["location"]), $Helper->cleanInput($_POST["money"]), $Helper->cleanInput($_POST["note"]));
  		
  		header("Location: edit.php?id=".$_POST["id"]."&success=true");
     exit();	
@@ -41,7 +41,7 @@
  
  	
  ?>
- <?php require("../header.php"); ?>
+ <?php require("header.php"); ?>
  
  <link rel="stylesheet" href="Style/data.css">
  <ul>
@@ -148,4 +148,4 @@
 <br>
 <a href="?id=<?=$_GET["id"];?>&delete=true">Kustuta</a>
 </body>
-<?php require("../footer.php"); ?>
+<?php require("footer.php"); ?>

@@ -1,5 +1,5 @@
 <?php 
- class Note {
+ class Note{
  	
      private $connection;
  	
@@ -99,7 +99,7 @@
  	
  	function getSingleNoteData($edit_id){
     		
- 		$stmt = $this->connection->prepare("SELECT profession, color, location, money, note FROM colorNotes WHERE id=? AND deleted IS NULL");
+ 		$stmt = $this->connection->prepare("SELECT profession, color, location, money, note FROM colornotes WHERE id=? AND deleted IS NULL");
  
  		$stmt->bind_param("i", $edit_id);
  		$stmt->bind_result($profession, $color, $location, $money, $note);
