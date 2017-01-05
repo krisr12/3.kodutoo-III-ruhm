@@ -18,7 +18,94 @@
 	//echo "<br>";
 	//var_dump($_POST);
 	
+	$signupFirstnameError = "";
+	$signupFirstname = "";
+	
+	//kas on üldse olemas
+	if (isset ($_POST ["signupFirstname"])) {
+		
+		//oli olemas, ehk keegi vajutas nuppu
+		//kas oli tühi
+		if (empty ($_POST ["signupFirstname"])) {
 			
+			//oli tõesti tühi
+			$signupFirstnameError = "Palun sisesta nimi!"; 
+		
+		} else {
+			
+			//kõik korras, email ei ole tühi ja on olemas
+			$signupFirstname = $_POST ["signupFirstname"];
+			
+		}	
+		
+	}
+	
+	$signupLastnameError = "";
+	$signupLastname = "";
+	
+	//kas on üldse olemas
+	if (isset ($_POST ["signupLastname"])) {
+		
+		//oli olemas, ehk keegi vajutas nuppu
+		//kas oli tühi
+		if (empty ($_POST ["signupLastname"])) {
+			
+			//oli tõesti tühi
+			$signupLastnameError = "Palun sisesta perekonnanimi!"; 
+		
+		} else {
+			
+			//kõik korras, email ei ole tühi ja on olemas
+			$signupLastname = $_POST ["signupLastname"];
+			
+		}	
+		
+	}
+	
+	$signupBirthdayError = "";
+	$signupBirthday = "";
+	
+	//kas on üldse olemas
+	if (isset ($_POST ["signupBirthday"])) {
+		
+		//oli olemas, ehk keegi vajutas nuppu
+		//kas oli tühi
+		if (empty ($_POST ["signupBirthday"])) {
+			
+			//oli tõesti tühi
+			$signupBirthdayError = "Sisesta sünnikuupäev"; 
+		
+		} else {
+			
+			//kõik korras, email ei ole tühi ja on olemas
+			$signupBirthday = $_POST ["signupBirthday"];
+			
+		}	
+	}
+	
+	$genderError = "";
+	$gender = "";
+	
+	//kas on üldse olemas
+	if (isset ($_POST ["gender"])) {
+		
+		//oli olemas, ehk keegi vajutas nuppu
+		//kas oli tühi
+		if (empty ($_POST ["gender"])) {
+			
+			//oli tõesti tühi
+			$genderError = "See v2li on kohustuslik!"; 
+		
+		} else {
+			
+			//kõik korras, email ei ole tühi ja on olemas
+			$gender = $_POST ["gender"];
+			
+		}	
+		
+	}
+
+	
 	$signupEmailError = "";
 	$signupEmail = "";
 	
@@ -41,18 +128,10 @@
 		
 	}
 	
-	$gender = "";
-		if(isset($_POST["gender"])) {
-			if(!empty($_POST["gender"])){
-				
-			//on olemas ja ei ole tühi
-			$gender = $_POST["gender"];
-			}
-		}
-		
+	
 	
 	$signupPasswordError = "";
-	
+
 	//kas on üldse olemas
 	if (isset ($_POST ["signupPassword"])) {
 		
@@ -73,31 +152,36 @@
 				
 			}
 		}
+	}
+	
+		if (empty($signupEmailError) && 
+		empty($signupPasswordError) &&
+		empty($signupFirstnameError) &&
+		empty($signupLastnameError) &&
+		empty($signupBirthdayError) &&
+		empty($genderError) &&
+		isset($_POST["signupEmail"]) &&
+		isset($_POST["signupPassword"]) &&
+		isset($_POST["signupFirstname"]) &&
+		isset($_POST["signupLastname"]) &&
+		isset($_POST["signupBirthday"]) &&
+		isset($_POST["gender"])) {
 		
-		
-		
-		// && tähendab and 
-		if  ( isset($_POST["signupEmail"]) &&
-			isset($_POST["signupPassword"])&&
-			 $signupEmailError== "" &&
-			 empty($signupPasswordError)
-			
-			) {
 
 			//ühtegi viga ei ole, kõik vajalik olemas
 			echo "Salvestan...";
-			echo "email ".$signupEmail. "<br>";
+			echo "Nimi ".$Firstname."<br>";
 			
 			$password = hash ("sha512", $_POST ["signupPassword"]);
 			
-			echo "Räsi ".$password."<br>";
+			echo "email ".$signupEmail. "<br>";
 			
 			//ühendus
 			$database = "if16_krisroos_3";
 			$mysqli = new mysqli($serverHost, $serverUsername, $serverPassword, $database);
 			
 			//käsk
-			$stmt = $mysqli->prepare("INSERT INTO Kasutajad_sample (email, password) VALUES(?, ?)");
+			$stmt = $mysqli->prepare("INSERT INTO Kasutajad_sample (firstname, lastname, birthday, email, password) VALUES(?, ?, ?, ?, ?)");
 			
 			echo $mysqli->error;
 			
@@ -105,7 +189,7 @@
 			//i- int
 			//d-decimal/double
 			//iga küsimärgi jaoks üks täht, mis tüüpi on
-			$stmt->bind_param("ss", $signupEmail, $password);
+			$stmt->bind_param("sssss", $signupFirstname, $signupLastname, $signupBirthday, $signupEmail, $password);
 
 			if($stmt->execute()) {
 				
@@ -116,7 +200,7 @@
 			}
 			
 			}
-	}
+			
 	echo "siin";
 	
 	$loginemailError = "";
@@ -239,30 +323,31 @@
 		</label>
 			
 			
-		<label>
 		<div class="required">Sinu sugu:</div>
-		<?php if ($gender == "male") { ?>
-		<input type="radio" name="gender" value="male" checked> Mees<br>
-		<?php } else { ?>
-		<input type="radio" name="gender" value="male"> Mees<br>
-		<?php } ?>
-		<?php if ($gender == "female") { ?>
-		<input type="radio" name="gender" value="female"checked> Naine<br>
-		<?php } else { ?>
-		<input type="radio" name="gender" value="female"> Naine<br>
-		<?php } ?>
-		</label>
+		<?php 
+		if ($gender == "male")  {
+		echo '<input type="radio" name="gender" value="male" checked> Mees<br>';
+		} else { 
+		echo '<input type="radio" name="gender" value="male"> Mees<br>';
+		 } 
+		if ($gender == "female") { 
+		echo '<input type="radio" name="gender" value="female"checked> Naine<br>';
+		} else { 
+		echo '<input type="radio" name="gender" value="female"> Naine<br>';
+		} 
+		?>
+		
 			
 			
 	<label>
 	<div class="required">Sinu email:</div>
-	<input name= "signupEmail" type= "email" value="<?php echo $signupEmail;?>" > <?php echo $signupEmailError; ?>
+	<input name= "signupEmail" type= "email" value="<?php echo $signupEmail; ?>"> <?php echo $signupEmailError; ?>
 	</label>
 		
 			
 	<label>
 	<div class="required">Loo parool:</div>
-	<input name="signupPassword" type="password"> <?php echo $signupPasswordError;?>
+	<input name="signupPassword" type="password"> <?php echo $signupPasswordError; ?>
 	</label>
 			
 	<button class="button">Loo kasutaja</button>
